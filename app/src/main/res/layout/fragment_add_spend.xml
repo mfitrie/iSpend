@@ -45,13 +45,13 @@
             android:id="@+id/et_spendValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_corner"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
+            android:background="@drawable/edittext_corner"
             android:hint="RM 0.00"
-            android:textColorHint="#fff"
+            android:minHeight="48dp"
             android:padding="10dp"
-            />
+            android:textColorHint="#fff" />
 
         <Space
             android:layout_width="wrap_content"
