@@ -1,11 +1,23 @@
 package com.example.ispend
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.fragment_add_spend.*
+import java.text.DecimalFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DecimalStyle
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,12 +51,14 @@ class fragment_addSpend : DialogFragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // remove white background
         dialog?.window?.setBackgroundDrawableResource(R.drawable.popup_border)
 
+        food_type()
     }
 
 
@@ -68,4 +82,108 @@ class fragment_addSpend : DialogFragment() {
                 }
             }
     }
+
+
+
+
+
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun food_type(){
+        val TAG = "food_type"
+        btn_food.setOnClickListener(){
+            val type = "Food"
+
+            // Date
+            val getDate = date()
+
+            if(!et_spendValue.text.isEmpty()){
+                val spendValue = formattedDecimalPlaces(et_spendValue)
+                Log.d(TAG, "value: $spendValue, Date: $getDate")
+            }else{
+                Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun entertainment_type(){
+        val TAG = "entertainment_type"
+        btn_entertainment.setOnClickListener(){
+            val type = "Entertainment"
+
+            // Date
+            val getDate = date()
+
+            if(!et_spendValue.text.isEmpty()){
+                val spendValue = formattedDecimalPlaces(et_spendValue)
+                Log.d(TAG, "value: $spendValue, Date: $getDate")
+            }else{
+                Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun fuel_type(){
+        val TAG = "fuel_type"
+        btn_fuel.setOnClickListener(){
+            val type = "Fuel"
+
+            // Date
+            val getDate = date()
+
+            if(!et_spendValue.text.isEmpty()){
+                val spendValue = formattedDecimalPlaces(et_spendValue)
+                Log.d(TAG, "value: $spendValue, Date: $getDate")
+            }else{
+                Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun other_type(){
+        val TAG = "other_type"
+        btn_other.setOnClickListener(){
+            val type = "Other"
+
+            // Date
+            val getDate = date()
+
+            if(!et_spendValue.text.isEmpty()){
+                val spendValue = formattedDecimalPlaces(et_spendValue)
+                Log.d(TAG, "value: $spendValue, Date: $getDate")
+            }else{
+                Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
+
+
+    // to format date
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun date(): String{
+        val date = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        return date.format(formatter)
+    }
+    
+    
+    // to format decimal places
+    fun formattedDecimalPlaces(number: EditText): Float{
+        val decimal = DecimalFormat("#,###.##")
+        val value = number.text.toString().toFloat()
+
+        return decimal.format(value).toFloat()
+
+    }
+
+
 }

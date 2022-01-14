@@ -47,8 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
+            android:inputType="numberDecimal"
             android:background="@drawable/edittext_corner"
             android:hint="RM 0.00"
+            android:textColor="#eee"
             android:minHeight="48dp"
             android:padding="10dp"
             android:textColorHint="#fff" />
