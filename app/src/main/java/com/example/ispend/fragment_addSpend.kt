@@ -42,6 +42,9 @@ class fragment_addSpend : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // remove white background
+        dialog?.window?.setBackgroundDrawableResource(R.drawable.popup_border)
+
     }
 
 

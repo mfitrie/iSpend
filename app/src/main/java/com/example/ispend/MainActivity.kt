@@ -16,6 +16,11 @@ class MainActivity : AppCompatActivity() {
         insertingToSpendAdapter(rvSpend, this)
 
 
+        btn_addSpend.setOnClickListener(){
+            val add_spend = fragment_addSpend()
+            add_spend.show(supportFragmentManager, "add_spend")
+        }
+
     }
 
 
