@@ -15,11 +15,14 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
     val TAG = "MAIN_ACTIVITY"
     val db = DBHelper(this, null)
 
+    val spendList = ArrayList<Spend>()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        insertingToSpendAdapter(rvSpend, this)
+        insertingToSpendAdapter(rvSpend, this, spendList)
 
 
         btn_addSpend.setOnClickListener(){
@@ -34,14 +37,22 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
         Log.d(TAG, "sendInput = Spend Value: $value, Spend Type: $type, Spend Date: $date")
         db.insertValueDB(value, type, date)
 
+        // to refresh the recyclerview
+        val cursor = db.getValueDB()
+        cursor?.moveToLast()
+        var id = cursor?.getInt(cursor.getColumnIndex(DBHelper.ID_COL))
+        id?.let {
+            Spend(it,value.toDouble(), type, date) }?.let {
+                spendList.add(it)
+            }
     }
 
 
 
 
-    fun insertingToSpendAdapter(rv: RecyclerView, context: Context){
+    private fun insertingToSpendAdapter(rv: RecyclerView, context: Context, spendList: ArrayList<Spend>){
 
-        val spendList = ArrayList<Spend>()
+//        val spendList = ArrayList<Spend>()
 
         // get the value from DB
         retrieveValueDB(spendList)

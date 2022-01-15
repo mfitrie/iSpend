@@ -50,6 +50,7 @@ class DBHelper(var context: Context, factory: SQLiteDatabase.CursorFactory?) : S
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
     }
 
+
     companion object{
         private val DATABASE_NAME = "iSpend"
         private val DATABASE_VERSION = 1
