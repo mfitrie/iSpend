@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.spend_holder.*
 import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
         setContentView(R.layout.activity_main)
 
         insertingToSpendAdapter(rvSpend, this, spendList)
+
+        updateExpenditureTotal(spendList)
 
 
         btn_addSpend.setOnClickListener(){
@@ -45,6 +48,8 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
             Spend(it,value.toDouble(), type, date) }?.let {
                 spendList.add(it)
             }
+        updateExpenditureTotal(spendList)
+
     }
 
 
@@ -94,7 +99,10 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
 
 
-
+    fun updateExpenditureTotal(spendList: ArrayList<Spend>){
+        val totalSpendValue: Double = spendList.map { it.spend_value }.sum()
+        tvSpendValue.text = totalSpendValue.toString()
+    }
 
 
 
