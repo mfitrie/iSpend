@@ -51,6 +51,13 @@ class DBHelper(var context: Context, factory: SQLiteDatabase.CursorFactory?) : S
     }
 
 
+    // Delete based on date
+    fun deleteData(date: String){
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME, "$SPEND_DATE =?", arrayOf(date))
+    }
+
+
     companion object{
         private val DATABASE_NAME = "iSpend"
         private val DATABASE_VERSION = 1

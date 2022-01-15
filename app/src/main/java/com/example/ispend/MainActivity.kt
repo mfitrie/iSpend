@@ -5,11 +5,13 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.spend_holder.*
-import java.text.DecimalFormat
+import kotlinx.android.synthetic.main.spend_holder.view.*
 
 class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
@@ -66,6 +68,9 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)
         adapter.notifyItemInserted(spendList.size -1)
+
+        // delete item using swipe gesture
+        deleteItemRV(1, adapter)
     }
 
 
@@ -106,6 +111,38 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
 
 
+    fun deleteItemRV(position: Int, adapter: SpendAdapter){
+
+        val swipeGesture = object : SwipteGesture(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                super.onSwiped(viewHolder, direction)
+                when(direction){
+                    ItemTouchHelper.RIGHT -> {
+//                        Toast.makeText(this@MainActivity, "Im number ${viewHolder.position}", Toast.LENGTH_SHORT).show()
+
+                        // Delete based on date
+                        db.deleteData(viewHolder.itemView.spend_date.text.toString())
+                        spendList.removeAt(viewHolder.position)
+
+                        adapter.notifyDataSetChanged()
+
+                        // update the expenditure total
+                        updateExpenditureTotal(spendList)
+
+                    }
+                }
+
+            }
+        }
+
+        val touchHelper = ItemTouchHelper(swipeGesture)
+        touchHelper.attachToRecyclerView(rvSpend)
+
+
+
+
+
+    }
 
 
 
