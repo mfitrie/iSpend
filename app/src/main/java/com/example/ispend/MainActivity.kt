@@ -1,5 +1,6 @@
 package com.example.ispend
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
@@ -26,8 +28,30 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
     }
 
+    @SuppressLint("Range")
     override fun sendInput(value: Float, type: String, date: String) {
         Log.d(TAG, "sendInput = Spend Value: $value, Spend Type: $type, Spend Date: $date")
+
+        // insert to database
+        val db = DBHelper(this, null)
+        db.insertValueDB(value, type, date)
+
+        val cursor = db.getValueDB()
+        cursor!!.moveToFirst()
+
+
+        while(cursor.moveToNext()){
+            var dbValue = cursor.getDouble(cursor.getColumnIndex(DBHelper.SPEND_COL))
+            var dbType = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_TYPE))
+            var dbDate = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_DATE))
+            Log.d("VALUE_FROM_DATABASE", "sendInput = Spend Value: $dbValue, Spend Type: $dbType, Spend Date: $dbDate")
+
+        }
+
+
+        cursor.close()
+
+
     }
 
 
