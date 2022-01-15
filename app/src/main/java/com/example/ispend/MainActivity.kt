@@ -3,11 +3,14 @@ package com.example.ispend
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
+
+    val TAG = "MAIN_ACTIVITY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +26,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun sendInput(value: Float, type: String, date: String) {
+        Log.d(TAG, "sendInput = Spend Value: $value, Spend Type: $type, Spend Date: $date")
+    }
+
 
 }
+
+
+
 
 fun insertingToSpendAdapter(rv: RecyclerView, context: Context){
     var spendList = mutableListOf(

@@ -1,5 +1,6 @@
 package com.example.ispend
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_add_spend.*
+import java.lang.ClassCastException
+import java.lang.Exception
 import java.text.DecimalFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -51,6 +54,27 @@ class fragment_addSpend : DialogFragment() {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    interface OnInputListener{
+        fun sendInput(value: Float, type: String, date: String)
+    }
+
+    var mInputListener: OnInputListener ? = null
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,6 +83,9 @@ class fragment_addSpend : DialogFragment() {
         dialog?.window?.setBackgroundDrawableResource(R.drawable.popup_border)
 
         food_type()
+        fuel_type()
+        entertainment_type()
+        other_type()
     }
 
 
@@ -84,6 +111,16 @@ class fragment_addSpend : DialogFragment() {
     }
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            mInputListener = activity as OnInputListener
+        }catch (e: Exception){
+            Log.d("ON_ATTACH", "onAttach: ${e.message}")
+        }
+    }
+
+
 
 
 
@@ -102,6 +139,10 @@ class fragment_addSpend : DialogFragment() {
             if(!et_spendValue.text.isEmpty()){
                 val spendValue = formattedDecimalPlaces(et_spendValue)
                 Log.d(TAG, "value: $spendValue, Date: $getDate")
+
+                callInterfaceInput(spendValue, type, getDate)
+                dismiss()
+
             }else{
                 Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
             }
@@ -121,6 +162,10 @@ class fragment_addSpend : DialogFragment() {
             if(!et_spendValue.text.isEmpty()){
                 val spendValue = formattedDecimalPlaces(et_spendValue)
                 Log.d(TAG, "value: $spendValue, Date: $getDate")
+
+                callInterfaceInput(spendValue, type, getDate)
+                dismiss()
+
             }else{
                 Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
             }
@@ -140,6 +185,10 @@ class fragment_addSpend : DialogFragment() {
             if(!et_spendValue.text.isEmpty()){
                 val spendValue = formattedDecimalPlaces(et_spendValue)
                 Log.d(TAG, "value: $spendValue, Date: $getDate")
+
+                callInterfaceInput(spendValue, type, getDate)
+                dismiss()
+
             }else{
                 Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
             }
@@ -159,6 +208,11 @@ class fragment_addSpend : DialogFragment() {
             if(!et_spendValue.text.isEmpty()){
                 val spendValue = formattedDecimalPlaces(et_spendValue)
                 Log.d(TAG, "value: $spendValue, Date: $getDate")
+
+                callInterfaceInput(spendValue, type, getDate)
+                dismiss()
+
+
             }else{
                 Toast.makeText(context, "Please enter your amount", Toast.LENGTH_SHORT).show()
             }
@@ -167,6 +221,7 @@ class fragment_addSpend : DialogFragment() {
     }
 
 
+    /////////////////////////////////// FUNCTION HELPER ///////////////////////////////////
     // to format date
     @RequiresApi(Build.VERSION_CODES.O)
     fun date(): String{
@@ -183,6 +238,12 @@ class fragment_addSpend : DialogFragment() {
 
         return decimal.format(value).toFloat()
 
+    }
+
+
+    // function to input and pass to MainActivity
+    fun callInterfaceInput(value: Float, type: String, date: String){
+        mInputListener?.sendInput(value, type, date)
     }
 
 
