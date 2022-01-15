@@ -13,6 +13,7 @@ import java.text.DecimalFormat
 class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
     val TAG = "MAIN_ACTIVITY"
+    val db = DBHelper(this, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,38 +29,76 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
     }
 
+    @SuppressLint("Range")
     override fun sendInput(value: Float, type: String, date: String) {
         Log.d(TAG, "sendInput = Spend Value: $value, Spend Type: $type, Spend Date: $date")
+        db.insertValueDB(value, type, date)
 
     }
 
 
+
+
+    fun insertingToSpendAdapter(rv: RecyclerView, context: Context){
+
+        val spendList = ArrayList<Spend>()
+
+        // get the value from DB
+        retrieveValueDB(spendList)
+
+        val adapter = SpendAdapter(spendList)
+        rv.adapter = adapter
+        rv.layoutManager = LinearLayoutManager(context)
+        adapter.notifyItemInserted(spendList.size -1)
+    }
+
+
+
+    @SuppressLint("Range")
+    fun retrieveValueDB(spendList: ArrayList<Spend>){
+
+        val cursor = db.getValueDB()
+
+        if(cursor!!.moveToFirst()){
+            var dbID = cursor.getInt(cursor.getColumnIndex(DBHelper.ID_COL))
+            var dbValue = cursor.getDouble(cursor.getColumnIndex(DBHelper.SPEND_COL))
+            var dbType = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_TYPE))
+            var dbDate = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_DATE))
+
+            spendList.add(Spend(dbID, dbValue, dbType, dbDate))
+
+            while (cursor.moveToNext()){
+                var dbID = cursor.getInt(cursor.getColumnIndex(DBHelper.ID_COL))
+                var dbValue = cursor.getDouble(cursor.getColumnIndex(DBHelper.SPEND_COL))
+                var dbType = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_TYPE))
+                var dbDate = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_DATE))
+
+                spendList.add(Spend(dbID, dbValue, dbType, dbDate))
+                Log.d("DATABASE_VALUE", "ID: $dbID, Value: $dbValue, Type: $dbType, Date: $dbDate")
+            }
+        }
+
+        cursor.close()
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
 
 
-fun insertingToSpendAdapter(rv: RecyclerView, context: Context){
-    var spendList = mutableListOf(
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-        Spend(20.00, "Food", "20/2/2021"),
-    )
-
-    val adapter = SpendAdapter(spendList)
-
-    rv.adapter = adapter
-    rv.layoutManager = LinearLayoutManager(context)
-//    rvSpend.adapter = adapter
-//    rvSpend.layoutManager = LinearLayoutManager(this)
-
-
-    adapter.notifyItemInserted(spendList.size -1)
-}
