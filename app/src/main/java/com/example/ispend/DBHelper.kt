@@ -5,16 +5,17 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.widget.Toast
 
-class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION){
+class DBHelper(var context: Context, factory: SQLiteDatabase.CursorFactory?) : SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION){
 
 
     override fun onCreate(db: SQLiteDatabase?) {
         val query = ("CREATE TABLE $TABLE_NAME (" +
-                "$ID_COL INTEGER PRIMARY KEY," +
+                "$ID_COL INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "$SPEND_COL REAL," +
-                "$SPEND_TYPE TEXT," +
-                "$SPEND_DATE TEXT)")
+                "$SPEND_TYPE VARCHAR(20)," +
+                "$SPEND_DATE VARCHAR(50))")
 
         db?.execSQL(query)
     }
@@ -30,13 +31,16 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) : SQLit
         val values = ContentValues()
 
         values.apply {
-            this.put(SPEND_COL, value)
+            put(SPEND_COL, value)
             put(SPEND_TYPE, type)
             put(SPEND_DATE, date)
         }
 
         val db = this.writableDatabase
-        db.insert(TABLE_NAME, null, values)
+        var result = db.insert(TABLE_NAME, null, values)
+        if(result == (-1).toLong()){
+            Toast.makeText(context, "Insert Failed", Toast.LENGTH_SHORT).show()
+        }
         db.close()
     }
 
