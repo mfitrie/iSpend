@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
     // convert to 2 decimal places
     fun formattedDecimalPlaces(number: Double): String{
-        val decimal = DecimalFormat("#,###.##")
+        val decimal = DecimalFormat("####.##")
 
         return decimal.format(number)
 

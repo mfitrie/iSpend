@@ -233,7 +233,7 @@ class fragment_addSpend : DialogFragment() {
     
     // to format decimal places
     fun formattedDecimalPlaces(number: EditText): Float{
-        val decimal = DecimalFormat("#,###.##")
+        val decimal = DecimalFormat("####.##")
         val value = number.text.toString().toFloat()
 
         return decimal.format(value).toFloat()
