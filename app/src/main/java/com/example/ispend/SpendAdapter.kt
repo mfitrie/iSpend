@@ -23,6 +23,14 @@ class SpendAdapter(
             spend_value.text = spends[position].spend_value.toString()
             spend_type.text = spends[position].spend_type
             spend_date.text = spends[position].spend_date
+
+            when(spends[position].spend_type){
+                "Food" -> shapeableImageView.setImageResource(R.drawable.ic_food)
+                "Entertainment" -> shapeableImageView.setImageResource(R.drawable.ic_entertainment)
+                "Fuel" -> shapeableImageView.setImageResource(R.drawable.ic_fuel)
+                "Other" -> shapeableImageView.setImageResource(R.drawable.ic_other)
+
+            }
         }
     }
 
