@@ -64,6 +64,18 @@
         app:layout_constraintStart_toStartOf="@+id/linearLayout" />
 
     <TextView
+        android:id="@+id/spend_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:visibility="invisible"
+        android:textColor="#eee"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/shapeableImageView"
+        app:layout_constraintEnd_toStartOf="@+id/shapeableImageView"
+        app:layout_constraintTop_toTopOf="@+id/shapeableImageView" />
+
+    <TextView
         android:id="@+id/spend_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

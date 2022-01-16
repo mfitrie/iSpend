@@ -148,7 +148,10 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 //                        Toast.makeText(this@MainActivity, "Im number ${viewHolder.position}", Toast.LENGTH_SHORT).show()
 
                         // Delete based on date
-                        db.deleteData(viewHolder.itemView.spend_date.text.toString())
+                        val idInDatabase = viewHolder.itemView.spend_id.text
+                        Log.d("ONSWIPED", "onSwiped: $idInDatabase")
+
+                        db.deleteData(idInDatabase as String)
                         spendList.removeAt(viewHolder.position)
 
                         adapter.notifyDataSetChanged()

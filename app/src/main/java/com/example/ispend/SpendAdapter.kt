@@ -19,6 +19,7 @@ class SpendAdapter(
 
     override fun onBindViewHolder(holder: SpendViewHolder, position: Int) {
         holder.itemView.apply {
+            spend_id.text = spends[position].spend_id.toString()
             spend_value.text = spends[position].spend_value.toString()
             spend_type.text = spends[position].spend_type
             spend_date.text = spends[position].spend_date
