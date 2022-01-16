@@ -117,7 +117,7 @@
                 android:layout_width="74dp"
                 android:layout_height="74dp"
                 app:icon="@drawable/ic_fuel"
-                android:padding="10dp"
+                android:padding="1dp"
                 android:backgroundTint="#FD7014"
                 app:shapeAppearanceOverlay="@style/Circular"
                 />
@@ -142,9 +142,8 @@
                 android:id="@+id/btn_other"
                 android:layout_width="74dp"
                 android:layout_height="74dp"
-
                 android:backgroundTint="#FD7014"
-                android:padding="10dp"
+                android:padding="5dp"
                 app:icon="@drawable/ic_other"
                 app:shapeAppearanceOverlay="@style/Circular" />
 
