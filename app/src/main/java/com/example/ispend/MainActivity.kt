@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.spend_holder.*
 import kotlinx.android.synthetic.main.spend_holder.view.*
+import java.text.DecimalFormat
 
 class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
@@ -43,11 +45,13 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
         db.insertValueDB(value, type, date)
 
         // to refresh the recyclerview
+        var dateToTime = splitTheDate(date)
+
         val cursor = db.getValueDB()
         cursor?.moveToLast()
         var id = cursor?.getInt(cursor.getColumnIndex(DBHelper.ID_COL))
         id?.let {
-            Spend(it,value.toDouble(), type, date) }?.let {
+            Spend(it,formattedDecimalPlaces(value.toDouble()).toDouble(), type, dateToTime) }?.let {
                 spendList.add(it)
             }
         updateExpenditureTotal(spendList)
@@ -86,7 +90,11 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
             var dbType = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_TYPE))
             var dbDate = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_DATE))
 
-            spendList.add(Spend(dbID, dbValue, dbType, dbDate))
+            var time = splitTheDate(dbDate)
+
+            Log.d("DB", "retrieveValueDB: $time")
+
+            spendList.add(Spend(dbID, formattedDecimalPlaces(dbValue).toDouble(), dbType, time))
 
             while (cursor.moveToNext()){
                 var dbID = cursor.getInt(cursor.getColumnIndex(DBHelper.ID_COL))
@@ -94,7 +102,10 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
                 var dbType = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_TYPE))
                 var dbDate = cursor.getString(cursor.getColumnIndex(DBHelper.SPEND_DATE))
 
-                spendList.add(Spend(dbID, dbValue, dbType, dbDate))
+                var time = splitTheDate(dbDate)
+
+                spendList.add(Spend(dbID, formattedDecimalPlaces(dbValue).toDouble(), dbType, time))
+                Log.d("MOVETONEXT", "retrieveValueDB: ${formattedDecimalPlaces(dbValue).toDouble()}")
                 Log.d("DATABASE_VALUE", "ID: $dbID, Value: $dbValue, Type: $dbType, Date: $dbDate")
             }
         }
@@ -105,8 +116,24 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
 
     fun updateExpenditureTotal(spendList: ArrayList<Spend>){
+        val decimal = DecimalFormat("#,###.##")
+
         val totalSpendValue: Double = spendList.map { it.spend_value }.sum()
-        tvSpendValue.text = totalSpendValue.toString()
+//        tvSpendValue.text = totalSpendValue.toString()
+        tvSpendValue.text = formattedDecimalPlaces(totalSpendValue)
+
+    }
+
+    // convert to 2 decimal places
+    fun formattedDecimalPlaces(number: Double): String{
+        val decimal = DecimalFormat("#,###.##")
+
+        return decimal.format(number)
+
+    }
+
+    fun splitTheDate(date: String): String{
+        return date.split(" ")[1]
     }
 
 
