@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
     }
 
     fun splitTheDate(date: String): String{
-        return date.split(" ")[1]
+        return date.split(" ")[0]
     }
 
 

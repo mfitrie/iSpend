@@ -58,7 +58,7 @@
         android:layout_marginBottom="20dp"
         android:text="Food"
         android:textColor="#eee"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/linearLayout" />
@@ -82,7 +82,7 @@
         android:layout_marginEnd="27dp"
         android:text="Date"
         android:textColor="#eee"
-        android:textSize="20sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
