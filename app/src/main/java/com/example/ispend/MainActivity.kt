@@ -2,6 +2,7 @@ package com.example.ispend
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,6 +27,13 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Floating action button
+        calendarSpendbtn.setImageResource(R.drawable.ic_calendar)
+        calendarSpendbtn.setOnClickListener{
+            val intent = Intent(this, CalendarSpend::class.java)
+            startActivity(intent)
+        }
 
         insertingToSpendAdapter(rvSpend, this, spendList)
 
@@ -126,7 +134,7 @@ class MainActivity : AppCompatActivity(), fragment_addSpend.OnInputListener{
 
     // convert to 2 decimal places
     fun formattedDecimalPlaces(number: Double): String{
-        val decimal = DecimalFormat("####.##")
+        val decimal = DecimalFormat("####.00")
 
         return decimal.format(number)
 
