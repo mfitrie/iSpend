@@ -8,18 +8,40 @@
     tools:context=".CalendarSpend">
 
 
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="14dp"
+        android:padding="10dp"
+        app:compactCalendarBackgroundColor="#eee"
+        app:compactCalendarCurrentDayBackgroundColor="#fead79"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#FD7014"
+        app:compactCalendarMultiEventIndicatorColor="#fff"
+        app:compactCalendarTargetHeight="400dp"
+        app:compactCalendarTextColor="#000"
+        app:compactCalendarTextSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/fl_TotalDayExpenditure"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
     <TextView
         android:id="@+id/tvTotalExpenditure"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="53dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="28dp"
         android:text="Total day expenditure"
         android:textAlignment="center"
         android:textColor="#eee"
         android:textSize="40sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,12 +50,13 @@
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalExpenditure">
 
         <TextView
             android:id="@+id/tvRM"
@@ -57,26 +80,17 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="13dp"
-        android:background="@drawable/background_calendar"
-        app:layout_constraintBottom_toTopOf="@+id/fl_TotalDayExpenditure"
-        app:layout_constraintEnd_toEndOf="@+id/fl_TotalDayExpenditure" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fl_TotalDayExpenditure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="41dp"
+        android:layout_marginBottom="33dp"
         android:clickable="true"
         android:src="@android:drawable/ic_menu_my_calendar"
         app:backgroundTint="#FD7014"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
